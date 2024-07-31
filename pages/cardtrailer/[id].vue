@@ -124,6 +124,11 @@
 </template>
 
 <script>
+import { ref, onMounted } from 'vue';
+import MovieCard from '@/pages/MovieCard.vue';
+import { useRuntimeConfig } from '#app';
+const config = useRuntimeConfig();
+const apiKey = config.public.movieDbKey;
 export default {
   data() {
     return {
@@ -143,13 +148,13 @@ export default {
       return;
     }
     try {
-      const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=c6f06914c89e0d2d9127affd481b2189&language=en-US`);
+      const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=en-US`);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       this.movieDetails = await response.json();
 
-      const videoResponse = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=c6f06914c89e0d2d9127affd481b2189&language=en-US`);
+      const videoResponse = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}&language=en-US`);
       if (!videoResponse.ok) {
         throw new Error(`HTTP error! Status: ${videoResponse.status}`);
       }
